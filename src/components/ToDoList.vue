@@ -20,11 +20,13 @@
             avatar
           >
             <v-list-tile-action>
-              <v-checkbox></v-checkbox>
+              <v-checkbox v-model=item.complete></v-checkbox>
             </v-list-tile-action>
 
             <v-list-tile-content>
-              <v-list-tile-title>{{ item.text }}</v-list-tile-title>
+              <v-list-tile-title v-bind:class="{'textComplete':item.complete}">
+                {{ item.text }}
+              </v-list-tile-title>
             </v-list-tile-content>
 
             <v-list-tile-action>
@@ -84,15 +86,18 @@
           this.items = [
             {
               id: 1,
-              text: 'Clean home'
+              text: 'Clean home',
+              complete: false
             },
             {
               id: 2,
-              text: 'Pay utility bill'
+              text: 'Pay utility bill',
+              complete: false
             },
             {
               id: 3,
-              text: 'Finish Homework'
+              text: 'Finish Homework',
+              complete: true
             }
           ];
           this.loading = false;
@@ -126,4 +131,7 @@
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(-360deg); } }
 @keyframes spin { 100% { -webkit-transform: rotate(-360deg); } }
 
+.textComplete {
+  text-decoration: line-through;
+}
 </style>

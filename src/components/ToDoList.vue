@@ -26,28 +26,27 @@
             v-if=showNewRow
             avatar
             >
-        <v-list-tile-action>
-            <v-checkbox disabled></v-checkbox>
-        </v-list-tile-action>
+            <v-list-tile-action>
+                <v-checkbox disabled></v-checkbox>
+            </v-list-tile-action>
 
-        <v-list-tile-content>
-            <v-text-field
-            label="Solo"
-            placeholder="New Item..."
-            solo
-            @keyup.native.enter="addItem"
-            v-model="newItemText"
-            ></v-text-field>
-        </v-list-tile-content>
+            <v-list-tile-content>
+                <v-text-field
+                label="Solo"
+                placeholder="New Item..."
+                solo
+                @keyup.native.enter="addItem"
+                v-model="newItemText"
+                ></v-text-field>
+            </v-list-tile-content>
 
-        <v-list-tile-action>
-            <v-btn icon ripple @click="hideNewItem">
-            <v-icon color="grey lighten-1">delete_forever</v-icon>
-            </v-btn>
-        </v-list-tile-action>
-        </v-list-tile>
+            <v-list-tile-action>
+              <v-btn icon ripple @click="hideNewItem">
+                <v-icon color="grey lighten-1">delete_forever</v-icon>
+              </v-btn>
+            </v-list-tile-action>
+          </v-list-tile>
         </v-list>
-        
       </v-card>
     </v-flex>
   </v-layout>
@@ -123,8 +122,4 @@
 @-moz-keyframes spin { 100% { -moz-transform: rotate(-360deg); } }
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(-360deg); } }
 @keyframes spin { 100% { -webkit-transform: rotate(-360deg); } }
-
-.textComplete {
-  text-decoration: line-through;
-}
 </style>

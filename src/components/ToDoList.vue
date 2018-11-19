@@ -4,6 +4,9 @@
       <v-card>
         <v-toolbar color="light-blue" dark>
           <v-toolbar-title>ToDo:</v-toolbar-title>
+          <v-btn icon ripple align-right @click="showNewRow = true" :disabled="showNewRow">
+            <v-icon color="grey lighten-1">queue</v-icon>
+          </v-btn>
         </v-toolbar>
 
         <v-list two-line subheader>
@@ -22,11 +25,34 @@
 
             <v-list-tile-content>
               <v-list-tile-title>{{ item.text }}</v-list-tile-title>
-              <v-list-tile-sub-title>{{ item.subtitle }}</v-list-tile-sub-title>
             </v-list-tile-content>
 
             <v-list-tile-action>
-              <v-btn icon ripple>
+              <v-btn icon ripple @click="deleteItem(item.id)">
+                <v-icon color="grey lighten-1">delete_forever</v-icon>
+              </v-btn>
+            </v-list-tile-action>
+          </v-list-tile>
+          <v-list-tile
+            v-if=showNewRow
+            avatar
+          >
+            <v-list-tile-action>
+              <v-checkbox disabled></v-checkbox>
+            </v-list-tile-action>
+
+            <v-list-tile-content>
+              <v-text-field
+                label="Solo"
+                placeholder="New Item..."
+                solo
+                @keyup.native.enter="addItem"
+                v-model="newItemText"
+              ></v-text-field>
+            </v-list-tile-content>
+
+            <v-list-tile-action>
+              <v-btn icon ripple @click="hideNewItem">
                 <v-icon color="grey lighten-1">delete_forever</v-icon>
               </v-btn>
             </v-list-tile-action>
@@ -47,24 +73,41 @@
       return {
         items: [],
         loading: true,
+        showNewRow: false,
+        newItemText: null,
+        nextId: 4
       }
     },
     methods: {
       getItems() {
-        sleep(2000).then(() => {
+        sleep(500).then(() => {
           this.items = [
             {
+              id: 1,
               text: 'Clean home'
             },
             {
+              id: 2,
               text: 'Pay utility bill'
             },
             {
+              id: 3,
               text: 'Finish Homework'
             }
           ];
           this.loading = false;
         });
+      },
+      addItem() {
+        this.items.push({text: this.newItemText, id: this.nextId++});
+        this.hideNewItem();
+      },
+      hideNewItem() {
+        this.newItemText = null;
+        this.showNewRow = false;
+      },
+      deleteItem(id) {
+        this.items.splice(this.items.findIndex(i => i.id === id), 1);
       }
     },
     mounted () {

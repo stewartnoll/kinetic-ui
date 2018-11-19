@@ -9,63 +9,53 @@
           </v-btn>
         </v-toolbar>
 
-        <v-list two-line subheader>
-          <v-layout justify-center row v-if="loading">
+        <v-list two-line subheader v-if="loading">
+          <v-layout justify-center row>
             <v-icon class="loading" color="grey lighten-1" align-center>loop</v-icon>
           </v-layout>
-          <v-list-tile
-            v-else
+        </v-list>
+
+        <v-list two-line subheader v-else>
+          <ToDoListItem
             v-for="item in items"
-            :key="item.title"
-            avatar
-          >
-            <v-list-tile-action>
-              <v-checkbox v-model=item.complete></v-checkbox>
-            </v-list-tile-action>
-
-            <v-list-tile-content>
-              <v-list-tile-title v-bind:class="{'textComplete':item.complete}">
-                {{ item.text }}
-              </v-list-tile-title>
-            </v-list-tile-content>
-
-            <v-list-tile-action>
-              <v-btn icon ripple @click="deleteItem(item.id)">
-                <v-icon color="grey lighten-1">delete_forever</v-icon>
-              </v-btn>
-            </v-list-tile-action>
-          </v-list-tile>
+            :key="item.id"
+            :model=item
+            @deleteItem="deleteItem"
+          ></ToDoListItem>
           <v-list-tile
             v-if=showNewRow
             avatar
-          >
-            <v-list-tile-action>
-              <v-checkbox disabled></v-checkbox>
-            </v-list-tile-action>
+            >
+        <v-list-tile-action>
+            <v-checkbox disabled></v-checkbox>
+        </v-list-tile-action>
 
-            <v-list-tile-content>
-              <v-text-field
-                label="Solo"
-                placeholder="New Item..."
-                solo
-                @keyup.native.enter="addItem"
-                v-model="newItemText"
-              ></v-text-field>
-            </v-list-tile-content>
+        <v-list-tile-content>
+            <v-text-field
+            label="Solo"
+            placeholder="New Item..."
+            solo
+            @keyup.native.enter="addItem"
+            v-model="newItemText"
+            ></v-text-field>
+        </v-list-tile-content>
 
-            <v-list-tile-action>
-              <v-btn icon ripple @click="hideNewItem">
-                <v-icon color="grey lighten-1">delete_forever</v-icon>
-              </v-btn>
-            </v-list-tile-action>
-          </v-list-tile>
+        <v-list-tile-action>
+            <v-btn icon ripple @click="hideNewItem">
+            <v-icon color="grey lighten-1">delete_forever</v-icon>
+            </v-btn>
+        </v-list-tile-action>
+        </v-list-tile>
         </v-list>
+        
       </v-card>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
+  import ToDoListItem from './ToDoListItem.vue'
+
   function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
@@ -117,6 +107,9 @@
     },
     mounted () {
       this.getItems();
+    },
+    components: {
+      ToDoListItem
     }
   }
 </script>

@@ -9,18 +9,11 @@
           </v-btn>
         </v-toolbar>
 
-        <v-list two-line subheader v-if="loading">
-          <v-layout justify-center row>
-            <v-icon class="loading" color="grey lighten-1" align-center>loop</v-icon>
-          </v-layout>
-        </v-list>
-
-        <v-list two-line subheader v-else>
+        <v-list two-line subheader>
           <ToDoListItem
             v-for="item in items"
             :key="item.id"
             :model=item
-            @deleteItem="deleteItem"
           ></ToDoListItem>
           <v-list-tile
             v-if=showNewRow
@@ -54,58 +47,31 @@
 
 <script>
   import ToDoListItem from './ToDoListItem.vue'
-
-  function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
+  import store from '../stores/ToDoItemStore'
+  import {CREATE_TODO_ITEM} from '../stores/MutationTypes'
 
   export default {
     data () {
       return {
-        items: [],
-        loading: true,
         showNewRow: false,
         newItemText: null,
         nextId: 4
       }
     },
-    methods: {
-      getItems() {
-        sleep(500).then(() => {
-          this.items = [
-            {
-              id: 1,
-              text: 'Clean home',
-              complete: false
-            },
-            {
-              id: 2,
-              text: 'Pay utility bill',
-              complete: false
-            },
-            {
-              id: 3,
-              text: 'Finish Homework',
-              complete: true
-            }
-          ];
-          this.loading = false;
-        });
-      },
-      addItem() {
-        this.items.push({text: this.newItemText, id: this.nextId++});
-        this.hideNewItem();
-      },
-      hideNewItem() {
-        this.newItemText = null;
-        this.showNewRow = false;
-      },
-      deleteItem(id) {
-        this.items.splice(this.items.findIndex(i => i.id === id), 1);
+    computed: {
+      items () {
+        return store.state.items
       }
     },
-    mounted () {
-      this.getItems();
+    methods: {
+      addItem() {
+        store.commit(CREATE_TODO_ITEM, {text: this.newItemText, id: this.nextId++})
+        this.hideNewItem()
+      },
+      hideNewItem() {
+        this.newItemText = null
+        this.showNewRow = false
+      }
     },
     components: {
       ToDoListItem
@@ -114,12 +80,4 @@
 </script>
 
 <style scoped>
-.loading {
-    -webkit-animation:spin 2s linear infinite;
-    -moz-animation:spin 2s linear infinite;
-    animation:spin 2s linear infinite;
-}
-@-moz-keyframes spin { 100% { -moz-transform: rotate(-360deg); } }
-@-webkit-keyframes spin { 100% { -webkit-transform: rotate(-360deg); } }
-@keyframes spin { 100% { -webkit-transform: rotate(-360deg); } }
 </style>

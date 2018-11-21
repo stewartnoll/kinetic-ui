@@ -13,7 +13,7 @@
         </v-list-tile-content>
 
         <v-list-tile-action>
-            <v-btn icon ripple @click="$emit('deleteItem', model.id)"> 
+            <v-btn icon ripple @click="deleteItem(model.id)"> 
                 <v-icon color="grey lighten-1">delete_forever</v-icon>
             </v-btn>
         </v-list-tile-action>
@@ -21,12 +21,20 @@
 </template>
 
 <script>
+import store from '../stores/ToDoItemStore'
+import {DELETE_TODO_ITEM} from '../stores/MutationTypes'
+
 export default {
     props: {
         model: {
             type: Object
         }
-    }
+    },
+    methods: {
+      deleteItem(id) {
+        store.commit(DELETE_TODO_ITEM, id)
+      }
+    },
 }
 </script>
 

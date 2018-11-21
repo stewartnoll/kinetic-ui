@@ -54,8 +54,7 @@
     data () {
       return {
         showNewRow: false,
-        newItemText: null,
-        nextId: 4
+        newItemText: null
       }
     },
     computed: {
@@ -65,7 +64,7 @@
     },
     methods: {
       addItem() {
-        store.commit(CREATE_TODO_ITEM, {text: this.newItemText, id: this.nextId++})
+        store.dispatch(CREATE_TODO_ITEM, {text: this.newItemText})
         this.hideNewItem()
       },
       hideNewItem() {

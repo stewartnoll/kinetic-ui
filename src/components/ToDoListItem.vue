@@ -23,6 +23,7 @@
 <script>
 import store from '../stores/ToDoItemStore'
 import {DELETE_TODO_ITEM} from '../stores/MutationTypes'
+import { mapActions } from 'vuex';
 
 export default {
     props: {
@@ -32,7 +33,7 @@ export default {
     },
     methods: {
       deleteItem(id) {
-        store.commit(DELETE_TODO_ITEM, id)
+        store.dispatch(DELETE_TODO_ITEM, id)
       }
     },
 }

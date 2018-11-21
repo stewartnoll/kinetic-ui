@@ -6,7 +6,7 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
     state: {
-      count: 0,
+      nextId: 4,
       items: [
         {
           id: 1,
@@ -27,11 +27,23 @@ const store = new Vuex.Store({
     },
     mutations: {
       [CREATE_TODO_ITEM] (state, item) {
-        state.items.push(item);
+        item.id = this.state.nextId++
+        state.items.push(item)
       },
       [DELETE_TODO_ITEM] (state, itemId) {
-        state.items.splice(state.items.findIndex(i => i.id === itemId), 1);
+        state.items.splice(state.items.findIndex(i => i.id === itemId), 1)
       }
+    },
+    actions: {
+        [CREATE_TODO_ITEM] ({commit}, item) {
+            commit(CREATE_TODO_ITEM, item)
+            // POST to API
+        },
+        [DELETE_TODO_ITEM] ({commit}, itemId) {
+            // const itemToDelete = state.items[state.items.findIndex(i => i.id == itemId)]
+            commit(DELETE_TODO_ITEM, itemId)
+            // DELET to API
+        }
     }
   });
 

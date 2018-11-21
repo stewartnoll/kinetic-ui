@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {CREATE_TODO_ITEM, DELETE_TODO_ITEM} from './MutationTypes'
+import {CREATE_TODO_ITEM, 
+  DELETE_TODO_ITEM,
+  CHECK_TODO_ITEM,
+  UNCHECK_TODO_ITEM} from './ActionTypes'
 
 Vue.use(Vuex)
 
@@ -11,17 +14,17 @@ const store = new Vuex.Store({
         {
           id: 1,
           text: 'Clean home',
-          complete: false
+          checked: false
         },
         {
           id: 2,
           text: 'Pay utility bill',
-          complete: false
+          checked: false
         },
         {
           id: 3,
           text: 'Finish Homework',
-          complete: true
+          checked: true
         }
       ]
     },
@@ -32,6 +35,12 @@ const store = new Vuex.Store({
       },
       [DELETE_TODO_ITEM] (state, itemId) {
         state.items.splice(state.items.findIndex(i => i.id === itemId), 1)
+      },
+      [CHECK_TODO_ITEM] (state, itemId) {
+        state.items.find(i => i.id === itemId).checked = true;
+      },
+      [UNCHECK_TODO_ITEM] (state, itemId) {
+        state.items.find(i => i.id === itemId).checked = false;
       }
     },
     actions: {
@@ -40,8 +49,15 @@ const store = new Vuex.Store({
             // POST to API
         },
         [DELETE_TODO_ITEM] ({commit}, itemId) {
-            // const itemToDelete = state.items[state.items.findIndex(i => i.id == itemId)]
             commit(DELETE_TODO_ITEM, itemId)
+            // DELET to API
+        },
+        [CHECK_TODO_ITEM] ({commit}, itemId) {
+            commit(CHECK_TODO_ITEM, itemId)
+            // DELET to API
+        },
+        [UNCHECK_TODO_ITEM] ({commit}, itemId) {
+            commit(UNCHECK_TODO_ITEM, itemId)
             // DELET to API
         }
     }

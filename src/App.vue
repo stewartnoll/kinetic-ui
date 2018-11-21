@@ -14,8 +14,10 @@
 
 <script>
 import ToDoList from './components/ToDoList'
+import store from './stores/ToDoItemStore'
 
 export default {
+  store,
   name: 'App',
   components: {
     ToDoList

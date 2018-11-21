@@ -3,11 +3,11 @@
         avatar
         >
         <v-list-tile-action>
-            <v-checkbox v-model=model.complete></v-checkbox>
+            <v-checkbox v-model=checked></v-checkbox>
         </v-list-tile-action>
 
         <v-list-tile-content>
-            <v-list-tile-title v-bind:class="{'textComplete':model.complete}">
+            <v-list-tile-title v-bind:class="{'textComplete':checked}">
             {{ model.text }}
             </v-list-tile-title>
         </v-list-tile-content>
@@ -21,9 +21,7 @@
 </template>
 
 <script>
-import store from '../stores/ToDoItemStore'
-import {DELETE_TODO_ITEM} from '../stores/MutationTypes'
-import { mapActions } from 'vuex';
+import {DELETE_TODO_ITEM, CHECK_TODO_ITEM, UNCHECK_TODO_ITEM} from '../stores/ActionTypes'
 
 export default {
     props: {
@@ -31,9 +29,23 @@ export default {
             type: Object
         }
     },
+    computed: {
+        checked: {
+            get() {
+                return this.$store.state.items.find(i => i.id == this.model.id).checked
+            },
+            set(value) {
+                if(value) {
+                    this.$store.dispatch(CHECK_TODO_ITEM, this.model.id)
+                } else {
+                    this.$store.dispatch(UNCHECK_TODO_ITEM, this.model.id)
+                }
+            }
+        }
+    },
     methods: {
       deleteItem(id) {
-        store.dispatch(DELETE_TODO_ITEM, id)
+        this.$store.dispatch(DELETE_TODO_ITEM, id)
       }
     },
 }

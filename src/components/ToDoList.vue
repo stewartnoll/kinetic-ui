@@ -47,8 +47,7 @@
 
 <script>
   import ToDoListItem from './ToDoListItem.vue'
-  import store from '../stores/ToDoItemStore'
-  import {CREATE_TODO_ITEM} from '../stores/MutationTypes'
+  import {CREATE_TODO_ITEM} from '../stores/ActionTypes'
 
   export default {
     data () {
@@ -59,12 +58,12 @@
     },
     computed: {
       items () {
-        return store.state.items
+        return this.$store.state.items
       }
     },
     methods: {
       addItem() {
-        store.dispatch(CREATE_TODO_ITEM, {text: this.newItemText})
+        this.$store.dispatch(CREATE_TODO_ITEM, {text: this.newItemText, checked: false})
         this.hideNewItem()
       },
       hideNewItem() {

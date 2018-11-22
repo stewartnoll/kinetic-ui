@@ -25,5 +25,12 @@ npm run test
 npm run lint
 ```
 
+### Deploy to S3 (AWS)
+Pre-requisite: aws-cli configured with user who has read/write access to `arn:aws:s3:::dev-kinetic`
+```
+npm run deploy
+```
+
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).

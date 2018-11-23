@@ -5,7 +5,7 @@
         <v-toolbar color="light-blue" dark>
           <v-toolbar-title>ToDo:</v-toolbar-title>
           <v-btn icon ripple align-right @click="showNewRow = true" :disabled="showNewRow">
-            <v-icon color="grey lighten-1">queue</v-icon>
+            <v-icon color="white">queue</v-icon>
           </v-btn>
         </v-toolbar>
 

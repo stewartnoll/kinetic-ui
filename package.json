@@ -5,8 +5,9 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build-dev": "vue-cli-service build --mode development",
     "lint": "vue-cli-service lint",
-    "deploy": "aws s3 sync ./dist/ s3://dev-kinetic"
+    "deploy-dev": "sls deploy --stage dev"
   },
   "dependencies": {
     "axios": "^0.18.0",

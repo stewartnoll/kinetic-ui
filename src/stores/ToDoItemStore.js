@@ -36,12 +36,11 @@ const store = new Vuex.Store({
         [GET_TODO_ITEMS] ({commit}) {
           axios({
             method:'get',
-            url:'https://4mxdtq4ie4.execute-api.us-east-1.amazonaws.com/default/items',
-            responseType:'application/json',
-            headers: {'x-api-key': 'z5sCCtXIcj1RfMvOHfU9i4F0E2veJWtE5ypSQ4Gl'}
+            url:`${process.env.VUE_APP_API_ROOT_URL}/todos`,
+            responseType:'application/json'
           })
           .then((response) => {
-            commit('SetToDoItems', response.data.Items);
+            commit('SetToDoItems', response.data);
           })
           .catch((reason) => {
             console.log(reason);

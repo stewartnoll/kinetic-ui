@@ -1,32 +1,18 @@
+import axios from 'axios'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {CREATE_TODO_ITEM, 
   DELETE_TODO_ITEM,
   CHECK_TODO_ITEM,
-  UNCHECK_TODO_ITEM} from './ActionTypes'
+  UNCHECK_TODO_ITEM,
+  GET_TODO_ITEMS} from './ActionTypes'
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
     state: {
       nextId: 4,
-      items: [
-        {
-          id: 1,
-          text: 'Clean home',
-          checked: false
-        },
-        {
-          id: 2,
-          text: 'Pay utility bill',
-          checked: false
-        },
-        {
-          id: 3,
-          text: 'Finish Homework',
-          checked: true
-        }
-      ]
+      items: null
     },
     mutations: {
       [CREATE_TODO_ITEM] (state, item) {
@@ -41,9 +27,26 @@ const store = new Vuex.Store({
       },
       [UNCHECK_TODO_ITEM] (state, itemId) {
         state.items.find(i => i.id === itemId).checked = false;
+      },
+      SetToDoItems(state, items) {
+        state.items = items;
       }
     },
     actions: {
+        [GET_TODO_ITEMS] ({commit}) {
+          axios({
+            method:'get',
+            url:'https://4mxdtq4ie4.execute-api.us-east-1.amazonaws.com/default/items',
+            responseType:'application/json',
+            headers: {'x-api-key': 'z5sCCtXIcj1RfMvOHfU9i4F0E2veJWtE5ypSQ4Gl'}
+          })
+          .then((response) => {
+            commit('SetToDoItems', response.data.Items);
+          })
+          .catch((reason) => {
+            console.log(reason);
+          });
+        },
         [CREATE_TODO_ITEM] ({commit}, item) {
             commit(CREATE_TODO_ITEM, item)
             // POST to API

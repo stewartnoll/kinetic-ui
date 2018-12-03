@@ -1,6 +1,7 @@
 .DS_Store
 node_modules
 /dist
+jspm_packages
 
 # local env files
 .env.local
@@ -19,3 +20,6 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*
+
+# Serverless directories
+.serverless

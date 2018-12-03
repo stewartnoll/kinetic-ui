@@ -47,7 +47,7 @@
 
 <script>
   import ToDoListItem from './ToDoListItem.vue'
-  import {CREATE_TODO_ITEM} from '../stores/ActionTypes'
+  import {CREATE_TODO_ITEM, GET_TODO_ITEMS} from '../stores/ActionTypes'
 
   export default {
     data () {
@@ -55,6 +55,9 @@
         showNewRow: false,
         newItemText: null
       }
+    },
+    created() {
+        this.$store.dispatch(GET_TODO_ITEMS)
     },
     computed: {
       items () {

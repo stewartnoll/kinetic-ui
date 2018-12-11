@@ -36,9 +36,9 @@ export default {
             },
             set(value) {
                 if(value) {
-                    this.$store.dispatch(CHECK_TODO_ITEM, this.model.id)
+                    this.$store.dispatch(CHECK_TODO_ITEM, this.model)
                 } else {
-                    this.$store.dispatch(UNCHECK_TODO_ITEM, this.model.id)
+                    this.$store.dispatch(UNCHECK_TODO_ITEM, this.model)
                 }
             }
         }

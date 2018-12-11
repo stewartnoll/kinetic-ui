@@ -11,22 +11,14 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
     state: {
-      nextId: 4,
       items: null
     },
     mutations: {
       [CREATE_TODO_ITEM] (state, item) {
-        item.id = this.state.nextId++
         state.items.push(item)
       },
       [DELETE_TODO_ITEM] (state, itemId) {
         state.items.splice(state.items.findIndex(i => i.id === itemId), 1)
-      },
-      [CHECK_TODO_ITEM] (state, itemId) {
-        state.items.find(i => i.id === itemId).checked = true;
-      },
-      [UNCHECK_TODO_ITEM] (state, itemId) {
-        state.items.find(i => i.id === itemId).checked = false;
       },
       SetToDoItems(state, items) {
         state.items = items;
@@ -46,20 +38,63 @@ const store = new Vuex.Store({
             console.log(reason);
           });
         },
-        [CREATE_TODO_ITEM] ({commit}, item) {
-            commit(CREATE_TODO_ITEM, item)
-            // POST to API
+        [CREATE_TODO_ITEM] ({commit, dispatch}, item) {
+            axios({
+              method:'post',
+              url:`${process.env.VUE_APP_API_ROOT_URL}/todos`,
+              responseType:'application/json',
+              data: item
+            })
+            .then(() => {
+              commit(CREATE_TODO_ITEM, item)
+              dispatch(GET_TODO_ITEMS);
+            })
+            .catch((reason) => {
+              console.log(reason);
+            });
         },
-        [DELETE_TODO_ITEM] ({commit}, itemId) {
-            commit(DELETE_TODO_ITEM, itemId)
-            // DELET to API
+        [DELETE_TODO_ITEM] ({commit, dispatch}, itemId) {
+            axios({
+              method:'delete',
+              url:`${process.env.VUE_APP_API_ROOT_URL}/todos/${itemId}`
+            })
+            .then(() => {
+              commit(DELETE_TODO_ITEM, itemId)
+              dispatch(GET_TODO_ITEMS);
+            })
+            .catch((reason) => {
+              console.log(reason);
+            });
         },
-        [CHECK_TODO_ITEM] ({commit}, itemId) {
-            commit(CHECK_TODO_ITEM, itemId)
-            // DELET to API
+        [CHECK_TODO_ITEM] ({commit, dispatch}, item) {
+            item.checked = true;
+            axios({
+              method:'put',
+              url:`${process.env.VUE_APP_API_ROOT_URL}/todos/${item.id}`,
+              responseType:'application/json',
+              data: item
+            })
+            .then(() => {
+              dispatch(GET_TODO_ITEMS);
+            })
+            .catch((reason) => {
+              console.log(reason);
+            });
         },
-        [UNCHECK_TODO_ITEM] ({commit}, itemId) {
-            commit(UNCHECK_TODO_ITEM, itemId)
+        [UNCHECK_TODO_ITEM] ({commit, dispatch}, item) {
+          item.checked = false;
+          axios({
+            method:'put',
+            url:`${process.env.VUE_APP_API_ROOT_URL}/todos/${item.id}`,
+            responseType:'application/json',
+            data: item
+          })
+          .then(() => {
+            dispatch(GET_TODO_ITEMS);
+          })
+          .catch((reason) => {
+            console.log(reason);
+          });
             // DELET to API
         }
     }

@@ -4,7 +4,7 @@ plugins:
   - serverless-s3-sync
 
 custom:
-  stage: ${opt:stage, self:provider.stage}
+  stage: ${opt:stage, 'dev'}
   bucketName: ${self:custom.stage}-${self:service}
   s3Sync:
     - bucketName: ${self:custom.bucketName}
@@ -15,7 +15,7 @@ provider:
   runtime: nodejs6.10
   profile: serverless-agent
   tracing: true
-  stage: 'dev'
+  stage: ${self:custom.stage}
 
 resources:
   Resources:

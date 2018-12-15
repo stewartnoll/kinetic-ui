@@ -11,7 +11,7 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
     state: {
-      items: null
+      items: []
     },
     mutations: {
       [CREATE_TODO_ITEM] (state, item) {
